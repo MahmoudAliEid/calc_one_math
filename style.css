@@ -1,0 +1,94 @@
+/* style.css - Premium Arabic Gematria Calculator */
+/* Dark gradient background */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, hsl(230, 30%, 10%), hsl(260, 20%, 15%));
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+header h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: #e0e0e0;
+  font-size: 1rem;
+  resize: vertical;
+  backdrop-filter: blur(8px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+td, th {
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.5rem;
+  text-align: center;
+}
+
+button {
+  align-self: flex-end;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
+
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.result-summary {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  header h1 {font-size: 1.5rem;}
+  button {width: 100%;}
+}

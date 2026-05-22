@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arabic Gematria Calculator – Multiplier 4</title>
+  <meta name="description" content="Calculate Arabic gematria using the multiplier‑4 method with high‑precision BigInt arithmetic. Detailed step‑by‑step results displayed.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>حاسبة الجبرية – معامل 4</h1>
+    </header>
+
+    <section class="input-section">
+      <textarea id="textInput" placeholder="أدخل النص العربي هنا…" rows="3"></textarea>
+      <button id="calcBtn" class="btn-primary">احسب</button>
+    </section>
+
+    <section class="results-section" id="results" hidden>
+      <article class="card" id="step1Card">
+        <h2>الخطوة 1 – الترتيب التصاعدي</h2>
+        <div class="card-content" id="step1Body"></div>
+      </article>
+      <article class="card" id="step2Card">
+        <h2>الخطوة 2 – الضرب في 4</h2>
+        <div class="card-content" id="step2Body"></div>
+      </article>
+      <article class="card" id="step3Card">
+        <h2>الخطوة 3 – تجميع القيم المتشابهة</h2>
+        <div class="card-content" id="step3Body"></div>
+      </article>
+      <article class="card" id="step4Card">
+        <h2>الخطوة 4 – التعويض، الجمع النهائي والتبسيط</h2>
+        <div class="card-content" id="step4Body"></div>
+      </article>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
