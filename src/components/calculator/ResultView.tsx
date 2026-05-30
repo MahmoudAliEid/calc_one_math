@@ -127,7 +127,7 @@ export default function ResultView({ result }: ResultViewProps) {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          STEP 2: Index Squaring
+          STEP 2 & 3: Multiply by 16 and Square
           ═══════════════════════════════════════════════════════════════ */}
       <div className="space-y-4">
         <div className="flex items-center gap-3 px-2">
@@ -135,14 +135,14 @@ export default function ResultView({ result }: ResultViewProps) {
             ٢
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الثانية: تربيع الترتيب (Square of Index)
+            الخطوة الثانية والثالثة: الضرب في 16 ثم التربيع
           </h3>
         </div>
 
         <Card className="glass border-white/5 overflow-hidden">
           <CardContent className="p-6 space-y-4">
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب ترتيب كل حرف في نفسه (تربيع الترتيب الأصلي) للحصول على قيمة التموضع التربيعية دون أي تبسيط:
+              يتم ضرب الترتيب الأصلي للحرف في 16 للحصول على قيمة الخطوة الثانية، ثم يتم تربيع هذه القيمة للحصول على قيمة الخطوة الثالثة:
             </p>
             {/* Squared Index List */}
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 pt-2" dir="rtl">
@@ -165,11 +165,11 @@ export default function ResultView({ result }: ResultViewProps) {
                         isHovered ? 'bg-violet-500/30 text-violet-300' : 'bg-white/5 text-slate-300'
                       }`}>{step.char}</span>
                     </div>
-                    <div className="font-mono text-xs text-slate-400">
-                      {step.originalIndex} × {step.originalIndex}
+                    <div className="font-mono text-xs text-slate-400 flex flex-col items-center">
+                      <span>{step.originalIndex} × 16 = {step.step2Value}</span>
                     </div>
                     <div className="font-mono text-base font-black text-violet-400">
-                      {step.indexSquared}
+                      {step.step2Value}² = <span className="text-xl text-white">{step.indexSquared}</span>
                     </div>
                   </div>
                 );
@@ -188,7 +188,7 @@ export default function ResultView({ result }: ResultViewProps) {
             ٣
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الثالثة: تجميع قيم الحروف المتشابهة (Grouping & Summation)
+            الخطوة الرابعة: تجميع قيم الحروف المتشابهة (Grouping & Summation)
           </h3>
         </div>
 
@@ -235,8 +235,14 @@ export default function ResultView({ result }: ResultViewProps) {
                         [{analysis.positions.join(', ')}]
                       </span>
                     </div>
-                    <div className="flex flex-col gap-1 text-[0.7rem] font-bold">
-                      <span className="text-slate-500">تجميع المربعات (الخطوة ٢):</span>
+                    <div className="flex flex-col gap-1 text-[0.7rem] font-bold mt-1">
+                      <span className="text-slate-500">الضرب في 16 (الخطوة ٢):</span>
+                      <span className="text-violet-400 font-mono">
+                        [{analysis.step2Values.join(', ')}]
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-1 text-[0.7rem] font-bold mt-1">
+                      <span className="text-slate-500">تجميع المربعات (الخطوة ٣):</span>
                       <div className="bg-black/20 p-2 rounded-lg font-mono text-sky-400 text-xs mt-1 text-left break-all select-all">
                         {analysis.squares.join(' + ')}
                       </div>
@@ -258,7 +264,7 @@ export default function ResultView({ result }: ResultViewProps) {
             ٤
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الرابعة: الضرب التبادلي، الجمع الكلي، والتبسيط النهائي
+            الخطوة الخامسة: الضرب التبادلي، الجمع الكلي، والتبسيط النهائي
           </h3>
         </div>
 
@@ -267,7 +273,7 @@ export default function ResultView({ result }: ResultViewProps) {
             
             {/* Explanatory subtitle */}
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب (الترتيب الأصلي للحرف من الخطوة الأولى) في (القيمة المتجمعة للحرف من الخطوة الثالثة)، ثم نجمع كل نواتج الضرب معاً للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
+              يتم ضرب (القيمة الناتجة في الخطوة الثانية) في (القيمة المتجمعة للحرف من الخطوة الرابعة)، ثم نجمع كل نواتج الضرب معاً للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
             </p>
 
             {/* Cross-Multiplication Grid */}
@@ -301,7 +307,7 @@ export default function ResultView({ result }: ResultViewProps) {
                         <div className="flex flex-col">
                           <span className="text-[0.6rem] text-slate-500 font-bold">الموقع {step.originalIndex}</span>
                           <span className="text-xs font-mono font-bold text-slate-400">
-                            {step.originalIndex} × {step.groupedValue}
+                            {step.step2Value} × {step.groupedValue}
                           </span>
                         </div>
                       </div>

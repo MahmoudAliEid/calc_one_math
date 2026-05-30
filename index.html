@@ -2,43 +2,54 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arabic Gematria Calculator – Multiplier 4</title>
-  <meta name="description" content="Calculate Arabic gematria using the multiplier‑4 method with high‑precision BigInt arithmetic. Detailed step‑by‑step results displayed.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <title>حاسبة الجبرية – خوارزمية المعامل 16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  
   <main class="container">
     <header class="header">
-      <h1>حاسبة الجبرية – معامل 4</h1>
+      <h1>حاسبة الجبرية المتقدمة</h1>
+      <p>خوارزمية المعامل 16 للتحليل العددي الدقيق</p>
     </header>
 
-    <section class="input-section">
-      <textarea id="textInput" placeholder="أدخل النص العربي هنا…" rows="3"></textarea>
-      <button id="calcBtn" class="btn-primary">احسب</button>
+    <section class="input-section glass-panel">
+      <textarea id="textInput" placeholder="أدخل النص العربي هنا للتحليل..." rows="3"></textarea>
+      <button id="calcBtn" class="btn-primary">احسب النتائج</button>
     </section>
 
     <section class="results-section" id="results" hidden>
-      <article class="card" id="step1Card">
-        <h2>الخطوة 1 – الترتيب التصاعدي</h2>
-        <div class="card-content" id="step1Body"></div>
+      <article class="card glass-panel fade-in" style="animation-delay: 0.1s;">
+        <h2>الخطوة 1: الترتيب التصاعدي للأحرف</h2>
+        <div class="card-content flex-wrap" id="step1Body"></div>
       </article>
-      <article class="card" id="step2Card">
-        <h2>الخطوة 2 – الضرب في 4</h2>
-        <div class="card-content" id="step2Body"></div>
+
+      <article class="card glass-panel fade-in" style="animation-delay: 0.2s;">
+        <h2>الخطوة 2: الضرب في المعامل الثابت (16)</h2>
+        <div class="card-content flex-wrap" id="step2Body"></div>
       </article>
-      <article class="card" id="step3Card">
-        <h2>الخطوة 3 – تجميع القيم المتشابهة</h2>
-        <div class="card-content" id="step3Body"></div>
+
+      <article class="card glass-panel fade-in" style="animation-delay: 0.3s;">
+        <h2>الخطوة 3: تربيع النواتج (الأس 2)</h2>
+        <div class="card-content flex-wrap" id="step3Body"></div>
       </article>
-      <article class="card" id="step4Card">
-        <h2>الخطوة 4 – التعويض، الجمع النهائي والتبسيط</h2>
-        <div class="card-content" id="step4Body"></div>
+
+      <article class="card glass-panel fade-in" style="animation-delay: 0.4s;">
+        <h2>الخطوة 4: تجميع قيم الحروف المتشابهة</h2>
+        <div class="card-content grid-content" id="step4Body"></div>
+      </article>
+
+      <article class="card glass-panel fade-in highlight-card" style="animation-delay: 0.5s;">
+        <h2>الخطوة 5: الضرب التبادلي، الجمع الكلي، والتبسيط</h2>
+        <div class="card-content" id="step5Body"></div>
       </article>
     </section>
   </main>
+  
   <script src="script.js"></script>
 </body>
 </html>
