@@ -50,8 +50,8 @@ export function calculateArabicPower(text: string): CalculationResult {
     const idxBig = BigInt(i + 1);
     indices.push(idxBig);
     
-    // Step 2: Multiply index by 16
-    const step2Value = idxBig * BigInt(16);
+    // Step 2: Multiply index by 8
+    const step2Value = idxBig * BigInt(8);
     step2Vals.push(step2Value);
     
     // Step 3: Square the value from Step 2
