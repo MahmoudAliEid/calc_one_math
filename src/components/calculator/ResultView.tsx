@@ -127,7 +127,7 @@ export default function ResultView({ result }: ResultViewProps) {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          STEP 2 & 3: Multiply by 16 and Square
+          STEP 2 & 3: Multiply by 8 and Square
           ═══════════════════════════════════════════════════════════════ */}
       <div className="space-y-4">
         <div className="flex items-center gap-3 px-2">
@@ -135,14 +135,14 @@ export default function ResultView({ result }: ResultViewProps) {
             ٢
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الثانية والثالثة: الضرب في 16 ثم التربيع
+            الخطوة الثانية والثالثة: الضرب في 8 ثم التربيع
           </h3>
         </div>
 
         <Card className="glass border-white/5 overflow-hidden">
           <CardContent className="p-6 space-y-4">
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب الترتيب الأصلي للحرف في 16 للحصول على قيمة الخطوة الثانية، ثم يتم تربيع هذه القيمة للحصول على قيمة الخطوة الثالثة:
+              يتم ضرب الترتيب الأصلي للحرف في 8 للحصول على قيمة الخطوة الثانية، ثم يتم تربيع هذه القيمة للحصول على قيمة الخطوة الثالثة:
             </p>
             {/* Squared Index List */}
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 pt-2" dir="rtl">
@@ -166,7 +166,7 @@ export default function ResultView({ result }: ResultViewProps) {
                       }`}>{step.char}</span>
                     </div>
                     <div className="font-mono text-xs text-slate-400 flex flex-col items-center">
-                      <span>{step.originalIndex} × 16 = {step.step2Value}</span>
+                      <span>{step.originalIndex} × 8 = {step.step2Value}</span>
                     </div>
                     <div className="font-mono text-base font-black text-violet-400">
                       {step.step2Value}² = <span className="text-xl text-white">{step.indexSquared}</span>
@@ -236,7 +236,7 @@ export default function ResultView({ result }: ResultViewProps) {
                       </span>
                     </div>
                     <div className="flex flex-col gap-1 text-[0.7rem] font-bold mt-1">
-                      <span className="text-slate-500">الضرب في 16 (الخطوة ٢):</span>
+                      <span className="text-slate-500">الضرب في 8 (الخطوة ٢):</span>
                       <span className="text-violet-400 font-mono">
                         [{analysis.step2Values.join(', ')}]
                       </span>

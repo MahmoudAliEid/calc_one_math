@@ -1,4 +1,4 @@
-// script.js - Advanced Numerology Calculator (Base-16)
+// script.js - Advanced Numerology Calculator (Base-8)
 
 // ---------- Step 1: Normalization ----------
 function normalizeArabicText(text) {
@@ -50,8 +50,8 @@ function computeSteps(rawText) {
         const index = BigInt(i + 1);
         step1.push({ char, index: i + 1 });
         
-        // Step 2: Base-16 Multiplication
-        const step2Value = index * 16n;
+        // Step 2: Base-8 Multiplication
+        const step2Value = index * 8n;
         step2.push({ char, value: step2Value });
         
         // Step 3: Squaring the values
@@ -78,7 +78,7 @@ function computeSteps(rawText) {
     for (let i = 0; i < textLength; i++) {
         const char = cleaned[i];
         // Value from Step 2
-        const step2Value = BigInt(i + 1) * 16n;
+        const step2Value = BigInt(i + 1) * 8n;
         // Grouped Value from Step 4
         const groupedValue = charGroupedMap[char];
         
