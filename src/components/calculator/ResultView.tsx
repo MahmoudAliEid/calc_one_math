@@ -273,7 +273,7 @@ export default function ResultView({ result }: ResultViewProps) {
             
             {/* Explanatory subtitle */}
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب (القيمة الناتجة في الخطوة الثانية) في (القيمة المتجمعة للحرف من الخطوة الرابعة)، ثم نجمع كل نواتج الضرب معاً للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
+              يتم ضرب (الترتيب الأصلي للحرف في الخطوة الأولى) في (القيمة المتجمعة للحرف من الخطوة الرابعة)، ثم نجمع كل نواتج الضرب معاً للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
             </p>
 
             {/* Cross-Multiplication Grid */}
@@ -307,7 +307,7 @@ export default function ResultView({ result }: ResultViewProps) {
                         <div className="flex flex-col">
                           <span className="text-[0.6rem] text-slate-500 font-bold">الموقع {step.originalIndex}</span>
                           <span className="text-xs font-mono font-bold text-slate-400">
-                            {step.step2Value} × {step.groupedValue}
+                            {step.originalIndex} × {step.groupedValue}
                           </span>
                         </div>
                       </div>

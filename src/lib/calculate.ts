@@ -112,8 +112,9 @@ export function calculateArabicPower(text: string): CalculationResult {
     const indexSquared = squares[i].toString();
     const groupedValue = groupedValuesMap.get(char)!;
     
-    // Multiply Step 2 Value by Grouped Value
-    const multiplicationResult = step2Value * groupedValue;
+    // Multiply Step 1 Value by Grouped Value
+    const step1Value = BigInt(originalIndex);
+    const multiplicationResult = step1Value * groupedValue;
     
     grandTotal += multiplicationResult;
 
