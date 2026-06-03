@@ -50,8 +50,8 @@ function computeSteps(rawText) {
         const index = BigInt(i + 1);
         step1.push({ char, index: i + 1 });
         
-        // Step 2: Base-8 Multiplication
-        const step2Value = index * 8n;
+        // Step 2: Base-4 Multiplication
+        const step2Value = index * 4n;
         step2.push({ char, value: step2Value });
         
         // Step 3: Squaring the values
@@ -71,28 +71,25 @@ function computeSteps(rawText) {
         step4.push({ char, total: charGroupedMap[char] });
     }
     
-    // Step 5: Cross-Multiplication, Grand Total Sum, and Final Reduction
+    // Step 5: Normal Addition, Grand Total Sum, and Final Reduction
     let grandTotal = 0n;
     const step5Details = [];
     
     for (let i = 0; i < textLength; i++) {
         const char = cleaned[i];
-        // Value from Step 2
-        const step2Value = BigInt(i + 1) * 8n;
         // Grouped Value from Step 4
         const groupedValue = charGroupedMap[char];
         
-        // Cross-Multiplication
-        const currentMultiplication = step2Value * groupedValue; 
+        // Normal addition of Step 4 value
+        const additionResult = groupedValue;
         
         // Accumulate to Grand Total
-        grandTotal += currentMultiplication;
+        grandTotal += additionResult;
         
         step5Details.push({ 
             char, 
-            step2Value, 
             groupedValue, 
-            currentMultiplication 
+            additionResult 
         });
     }
     
@@ -155,13 +152,13 @@ function renderResults(result) {
             ${result.step5.details.map(r => 
                 `<div class="multiplication-row">
                     <span>${r.char}:</span> 
-                    <span>${r.step2Value} × ${r.groupedValue}</span> 
-                    <span>= ${r.currentMultiplication}</span>
+                    <span>القيمة المتجمعة: ${r.groupedValue}</span> 
+                    <span>= ${r.additionResult}</span>
                 </div>`
             ).join('')}
         </div>
         <div class="grand-total">
-            <h3>المجموع الكلي للضرب التبادلي:</h3>
+            <h3>المجموع الكلي:</h3>
             <div class="big-number">${result.step5.grandTotal}</div>
         </div>
         <div class="final-digit">

@@ -18,7 +18,7 @@ export interface SequenceStep {
   step2Value: string;
   indexSquared: string;
   groupedValue: string;
-  multiplicationResult: string;
+  additionResult: string;
 }
 
 export interface CalculationResult {
@@ -50,8 +50,8 @@ export function calculateArabicPower(text: string): CalculationResult {
     const idxBig = BigInt(i + 1);
     indices.push(idxBig);
     
-    // Step 2: Multiply index by 8
-    const step2Value = idxBig * BigInt(8);
+    // Step 2: Multiply index by 4
+    const step2Value = idxBig * BigInt(4);
     step2Vals.push(step2Value);
     
     // Step 3: Square the value from Step 2
@@ -101,7 +101,7 @@ export function calculateArabicPower(text: string): CalculationResult {
     };
   });
 
-  // ── Step 5: Cross-Multiplication & Grand Total ──
+  // ── Step 5: Normal Addition & Grand Total ──
   const sequence: SequenceStep[] = [];
   let grandTotal = BigInt(0);
 
@@ -112,11 +112,10 @@ export function calculateArabicPower(text: string): CalculationResult {
     const indexSquared = squares[i].toString();
     const groupedValue = groupedValuesMap.get(char)!;
     
-    // Multiply Step 1 Value by Grouped Value
-    const step1Value = BigInt(originalIndex);
-    const multiplicationResult = step1Value * groupedValue;
+    // Normal addition of Step 4 value
+    const additionResult = groupedValue;
     
-    grandTotal += multiplicationResult;
+    grandTotal += additionResult;
 
     sequence.push({
       char,
@@ -124,7 +123,7 @@ export function calculateArabicPower(text: string): CalculationResult {
       step2Value: step2Value.toString(),
       indexSquared,
       groupedValue: groupedValue.toString(),
-      multiplicationResult: multiplicationResult.toString(),
+      additionResult: additionResult.toString(),
     });
   }
 

@@ -135,14 +135,14 @@ export default function ResultView({ result }: ResultViewProps) {
             ٢
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الثانية والثالثة: الضرب في 8 ثم التربيع
+            الخطوة الثانية والثالثة: الضرب في 4 ثم التربيع
           </h3>
         </div>
 
         <Card className="glass border-white/5 overflow-hidden">
           <CardContent className="p-6 space-y-4">
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب الترتيب الأصلي للحرف في 8 للحصول على قيمة الخطوة الثانية، ثم يتم تربيع هذه القيمة للحصول على قيمة الخطوة الثالثة:
+              يتم ضرب الترتيب الأصلي للحرف في 4 للحصول على قيمة الخطوة الثانية، ثم يتم تربيع هذه القيمة للحصول على قيمة الخطوة الثالثة:
             </p>
             {/* Squared Index List */}
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 pt-2" dir="rtl">
@@ -166,7 +166,7 @@ export default function ResultView({ result }: ResultViewProps) {
                       }`}>{step.char}</span>
                     </div>
                     <div className="font-mono text-xs text-slate-400 flex flex-col items-center">
-                      <span>{step.originalIndex} × 8 = {step.step2Value}</span>
+                      <span>{step.originalIndex} × 4 = {step.step2Value}</span>
                     </div>
                     <div className="font-mono text-base font-black text-violet-400">
                       {step.step2Value}² = <span className="text-xl text-white">{step.indexSquared}</span>
@@ -236,7 +236,7 @@ export default function ResultView({ result }: ResultViewProps) {
                       </span>
                     </div>
                     <div className="flex flex-col gap-1 text-[0.7rem] font-bold mt-1">
-                      <span className="text-slate-500">الضرب في 8 (الخطوة ٢):</span>
+                      <span className="text-slate-500">الضرب في 4 (الخطوة ٢):</span>
                       <span className="text-violet-400 font-mono">
                         [{analysis.step2Values.join(', ')}]
                       </span>
@@ -264,7 +264,7 @@ export default function ResultView({ result }: ResultViewProps) {
             ٤
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الخامسة: الضرب التبادلي، الجمع الكلي، والتبسيط النهائي
+            الخطوة الخامسة: الجمع الكلي لقيم الخطوة الرابعة، والتبسيط النهائي
           </h3>
         </div>
 
@@ -273,7 +273,7 @@ export default function ResultView({ result }: ResultViewProps) {
             
             {/* Explanatory subtitle */}
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب (الترتيب الأصلي للحرف في الخطوة الأولى) في (القيمة المتجمعة للحرف من الخطوة الرابعة)، ثم نجمع كل نواتج الضرب معاً للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
+              يتم جمع القيم المتجمعة للحروف من الخطوة الرابعة للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
             </p>
 
             {/* Cross-Multiplication Grid */}
@@ -281,7 +281,7 @@ export default function ResultView({ result }: ResultViewProps) {
               <div className="flex items-center gap-2 mb-2">
                 <Hash className="w-4 h-4 text-blue-400" />
                 <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                  معادلات الضرب التبادلي للمواضع
+                  قيم الخطوة الرابعة للمواضع
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" dir="rtl">
@@ -307,12 +307,12 @@ export default function ResultView({ result }: ResultViewProps) {
                         <div className="flex flex-col">
                           <span className="text-[0.6rem] text-slate-500 font-bold">الموقع {step.originalIndex}</span>
                           <span className="text-xs font-mono font-bold text-slate-400">
-                            {step.originalIndex} × {step.groupedValue}
+                            القيمة المتجمعة: {step.groupedValue}
                           </span>
                         </div>
                       </div>
                       <div className="font-mono text-sm font-black text-blue-400">
-                        {step.multiplicationResult}
+                        {step.additionResult}
                       </div>
                     </div>
                   );
@@ -339,7 +339,7 @@ export default function ResultView({ result }: ResultViewProps) {
                           hoveredChar === step.char ? 'bg-blue-500/20 text-blue-300 font-bold' : ''
                         }`}
                       >
-                        {step.multiplicationResult}
+                        {step.additionResult}
                       </span>
                       {i < sequence.length - 1 && <span className="text-slate-600 font-bold">+</span>}
                     </span>
