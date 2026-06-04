@@ -256,15 +256,15 @@ export default function ResultView({ result }: ResultViewProps) {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          STEP 4: Cross-Multiplication, Total Sum & Final Reduction
+          STEP 5: Cross-Multiplication, Total Sum & Final Reduction
           ═══════════════════════════════════════════════════════════════ */}
       <div className="space-y-4">
         <div className="flex items-center gap-3 px-2">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-blue-500/20">
-            ٤
+            ٥
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الخامسة: الجمع الكلي لقيم الخطوة الرابعة، والتبسيط النهائي
+            الخطوة الخامسة: ضرب الترتيب (الخطوة ١) في القيمة المتجمعة (الخطوة ٤) والجمع والتبسيط النهائي
           </h3>
         </div>
 
@@ -273,7 +273,7 @@ export default function ResultView({ result }: ResultViewProps) {
             
             {/* Explanatory subtitle */}
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم جمع القيم المتجمعة للحروف من الخطوة الرابعة للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
+              يتم ضرب ترتيب كل حرف (الخطوة الأولى) في قيمته المتجمعة (الخطوة الرابعة) للحصول على قيمة الموضع في الخطوة الخامسة، ثم يتم جمع كل القيم للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
             </p>
 
             {/* Cross-Multiplication Grid */}
@@ -281,7 +281,7 @@ export default function ResultView({ result }: ResultViewProps) {
               <div className="flex items-center gap-2 mb-2">
                 <Hash className="w-4 h-4 text-blue-400" />
                 <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                  قيم الخطوة الرابعة للمواضع
+                  ناتج ضرب ترتيب الموضع × القيمة المتجمعة للخطوة الرابعة
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" dir="rtl">
@@ -307,7 +307,7 @@ export default function ResultView({ result }: ResultViewProps) {
                         <div className="flex flex-col">
                           <span className="text-[0.6rem] text-slate-500 font-bold">الموقع {step.originalIndex}</span>
                           <span className="text-xs font-mono font-bold text-slate-400">
-                            القيمة المتجمعة: {step.groupedValue}
+                            {step.originalIndex} × {step.groupedValue}
                           </span>
                         </div>
                       </div>

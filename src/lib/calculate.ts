@@ -111,9 +111,8 @@ export function calculateArabicPower(text: string): CalculationResult {
     const step2Value = step2Vals[i];
     const indexSquared = squares[i].toString();
     const groupedValue = groupedValuesMap.get(char)!;
-    
-    // Normal addition of Step 4 value
-    const additionResult = groupedValue;
+    // Step 5: Multiply Step 1 value (originalIndex) by Step 4 value (groupedValue)
+    const additionResult = BigInt(originalIndex) * groupedValue;
     
     grandTotal += additionResult;
 

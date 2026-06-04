@@ -2,10 +2,10 @@ import { calculateArabicPower } from './src/lib/calculate';
 
 const tests = [
     { text: "جيل جميل", expected: 3 },
-    { text: "محمد و محمود", expected: 9 },
-    { text: "نور ونوره", expected: 1 },
-    { text: "جار جلال", expected: 7 },
-    { text: "محمود", expected: 5 },
+    { text: "محمد و محمود", expected: 3 },
+    { text: "نور ونوره", expected: 3 },
+    { text: "جار جلال", expected: 6 },
+    { text: "محمود", expected: 3 },
 ];
 
 tests.forEach(({ text, expected }) => {
