@@ -178,8 +178,10 @@ function computeSteps(rawText) {
     const step6ExactStr = bigIntDivToExactString(grandTotal, letterCount, 50);
     // Scientific notation display
     const step6Scientific = toScientificNotation(step6ExactStr);
-    // Final digital root reduction ONLY after Step 6 division (on integer part)
-    const finalDigit = reduceDigitsFromString(step6ExactStr);
+    // Final digital root reduction: Old (Step 6) / New (Step 5)
+    const finalDigitStep5 = reduceDigitsFromString(grandTotal.toString());
+    const finalDigitStep6 = reduceDigitsFromString(step6ExactStr);
+    const finalDigit = `${finalDigitStep6} / ${finalDigitStep5}`;
     
     return {
         cleaned,
@@ -276,7 +278,7 @@ function renderResults(result) {
         </div>
         <div class="final-digit">
             <h3>الرقم النهائي المبوب (Digital Root):</h3>
-            <div class="massive-number">${result.step6.finalDigit}</div>
+            <div class="massive-number" style="direction: ltr; display: inline-block;">${result.step6.finalDigit}</div>
         </div>
     `;
     document.getElementById("step6Body").innerHTML = step6Html;

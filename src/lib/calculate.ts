@@ -33,6 +33,8 @@ export interface CalculationResult {
   step6Scientific: string;
   reductionSteps: string[];
   finalReduced: string;
+  step6ReductionSteps: string[];
+  step6FinalReduced: string;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -135,7 +137,8 @@ export function calculateArabicPower(text: string): CalculationResult {
   const step6ExactStr = bigIntDivWithRounding(grandTotal, letterCount, 6);
   const step6Scientific = toScientificNotation(step6ExactStr);
 
-  const reduction = reduceDigitsFromString(step6ExactStr);
+  const reductionStep5 = reduceDigitsFromString(grandTotal.toString());
+  const reductionStep6 = reduceDigitsFromString(step6ExactStr);
 
   return {
     original: text,
@@ -147,8 +150,10 @@ export function calculateArabicPower(text: string): CalculationResult {
     step6Denominator: n.toString(),
     step6ExactStr,
     step6Scientific,
-    reductionSteps: reduction.steps,
-    finalReduced: reduction.finalResult,
+    reductionSteps: reductionStep5.steps,
+    finalReduced: `${reductionStep6.finalResult} / ${reductionStep5.finalResult}`,
+    step6ReductionSteps: reductionStep6.steps,
+    step6FinalReduced: reductionStep6.finalResult,
   };
 }
 

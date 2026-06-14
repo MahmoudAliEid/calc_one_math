@@ -46,27 +46,48 @@ export default function ResultView({ result }: ResultViewProps) {
           <CardTitle className="text-3xl font-black text-white">الرقم النهائي المبوّب (Digital Root)</CardTitle>
         </CardHeader>
         <CardContent className="pb-10 pt-4 flex flex-col items-center">
-          <div className="relative flex justify-center items-center px-4 mb-4">
+          <div className="relative flex flex-col justify-center items-center px-4 mb-4 text-center">
             <div className="absolute inset-0 bg-sky-500/20 blur-[100px] rounded-full scale-75 group-hover:scale-100 transition-transform duration-1000" />
-            <span className="text-[11rem] font-black leading-none bg-gradient-to-b from-white via-sky-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_10px_15px_rgba(0,0,0,0.6)] animate-in zoom-in duration-1000 select-none">
+            <span className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] xl:text-[11rem] font-black leading-none bg-gradient-to-b from-white via-sky-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_10px_15px_rgba(0,0,0,0.6)] animate-in zoom-in duration-1000 select-none tracking-tight" dir="ltr">
               {finalReduced}
+            </span>
+            <span className="text-xs font-bold text-slate-400 mt-4">
+              (الناتج القديم / الناتج الجديد)
             </span>
           </div>
           
           {/* Path to reduction */}
-          <div className="flex items-center justify-center gap-3 bg-white/[0.03] border border-white/5 px-6 py-2.5 rounded-full shadow-inner">
-            <span className="text-xs font-bold text-slate-500">مسار الاختزال:</span>
-            <div className="flex items-center gap-2 font-mono font-bold text-sky-400">
-              {reductionSteps.map((step, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <span className={idx === reductionSteps.length - 1 ? "text-yellow-400 text-lg font-black" : ""}>
-                    {step}
-                  </span>
-                  {idx < reductionSteps.length - 1 && (
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-600 rtl:rotate-180" />
-                  )}
-                </div>
-              ))}
+          <div className="flex flex-col gap-3 w-full max-w-lg mt-2">
+            <div className="flex items-center justify-between bg-white/[0.02] border border-white/5 px-6 py-2 rounded-full shadow-inner">
+              <span className="text-xs font-bold text-slate-500">مسار الاختزال القديم:</span>
+              <div className="flex items-center gap-1.5 font-mono font-bold text-pink-400 text-sm">
+                {result.step6ReductionSteps?.map((step, idx) => (
+                  <div key={idx} className="flex items-center gap-1.5">
+                    <span className={idx === (result.step6ReductionSteps?.length || 0) - 1 ? "text-pink-400 font-black" : ""}>
+                      {step}
+                    </span>
+                    {idx < (result.step6ReductionSteps?.length || 0) - 1 && (
+                      <ChevronRight className="w-3 h-3 text-slate-600 rtl:rotate-180" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white/[0.03] border border-white/5 px-6 py-2.5 rounded-full shadow-inner">
+              <span className="text-xs font-bold text-slate-500">مسار الاختزال الجديد:</span>
+              <div className="flex items-center gap-1.5 font-mono font-bold text-sky-400 text-sm">
+                {reductionSteps.map((step, idx) => (
+                  <div key={idx} className="flex items-center gap-1.5">
+                    <span className={idx === reductionSteps.length - 1 ? "text-yellow-400 font-black" : ""}>
+                      {step}
+                    </span>
+                    {idx < reductionSteps.length - 1 && (
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-600 rtl:rotate-180" />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </CardContent>
@@ -354,56 +375,12 @@ export default function ResultView({ result }: ResultViewProps) {
               </div>
             </div>
 
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════════
-          STEP 6: Scientific Value and Final Reduction
-          ═══════════════════════════════════════════════════════════════ */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-3 px-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-pink-500/20">
-            ٦
-          </div>
-          <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة السادسة: حساب القيمة العلمية الإجمالية
-          </h3>
-        </div>
-
-        <Card className="glass border-white/5 overflow-hidden">
-          <CardContent className="p-6 space-y-6">
-            <p className="text-slate-400 text-sm leading-relaxed">
-              تقسيم المجموع الكلي من الخطوة الخامسة على عدد الحروف الكلي (الخطوة الأولى) للحصول على القيمة العلمية النهائية. يتم استخراج الرقم النهائي المبوّب (Digital Root) من هذا الناتج.
-            </p>
-
-            {/* Division Display */}
-            <div className="bg-black/20 p-5 rounded-2xl border border-white/5 text-center flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3 text-xl font-mono text-slate-300">
-                <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">{result.step6Numerator}</span>
-                <span className="text-pink-400 font-bold">÷</span>
-                <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">{result.step6Denominator}</span>
-                <span className="text-pink-400 font-bold">=</span>
-              </div>
-              <div className="text-2xl font-black text-white bg-gradient-to-r from-pink-500/10 to-rose-500/10 px-8 py-3 rounded-xl border border-pink-500/20 font-mono select-all overflow-x-auto max-w-full">
-                {result.step6ExactStr}
-              </div>
-            </div>
-
-            {/* Scientific Notation */}
-            <div className="flex flex-col items-center gap-2 pt-2">
-              <span className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-widest">الصيغة العلمية (Scientific Notation)</span>
-              <div className="text-2xl font-mono font-bold text-pink-400">
-                {result.step6Scientific}
-              </div>
-            </div>
-            
             {/* Final Digital Reduction Block */}
             <div className="space-y-3 pt-4 border-t border-white/5">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
                 <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                  التبسيط النهائي للناتج العلمي (Digital Root Reduction)
+                  التبسيط النهائي للمجموع الكلي (Digital Root Reduction)
                 </span>
               </div>
               <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 flex flex-col items-center gap-4 text-center">
@@ -440,7 +417,98 @@ export default function ResultView({ result }: ResultViewProps) {
                   })}
                 </div>
                 <p className="text-[0.7rem] text-slate-500 leading-relaxed italic max-w-md">
-                  يتم جمع خانات الرقم الصحيح للناتج العلمي بشكل متكرر حتى نصل إلى رقم مفرد.
+                  يتم جمع خانات المجموع الكلي من الخطوة الخامسة بشكل متكرر حتى نصل إلى رقم مفرد.
+                </p>
+              </div>
+            </div>
+
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          STEP 6: Scientific Value and Final Reduction
+          ═══════════════════════════════════════════════════════════════ */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 px-2">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-pink-500/20">
+            ٦
+          </div>
+          <h3 className="text-lg font-bold tracking-tight text-white">
+            الخطوة السادسة: حساب القيمة العلمية الإجمالية
+          </h3>
+        </div>
+
+        <Card className="glass border-white/5 overflow-hidden">
+          <CardContent className="p-6 space-y-6">
+            <p className="text-slate-400 text-sm leading-relaxed">
+              تقسيم المجموع الكلي من الخطوة الخامسة على عدد الحروف الكلي (الخطوة الأولى) للحصول على القيمة العلمية النهائية.
+            </p>
+
+            {/* Division Display */}
+            <div className="bg-black/20 p-5 rounded-2xl border border-white/5 text-center flex flex-col items-center gap-4">
+              <div className="flex items-center gap-3 text-xl font-mono text-slate-300">
+                <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">{result.step6Numerator}</span>
+                <span className="text-pink-400 font-bold">÷</span>
+                <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">{result.step6Denominator}</span>
+                <span className="text-pink-400 font-bold">=</span>
+              </div>
+              <div className="text-2xl font-black text-white bg-gradient-to-r from-pink-500/10 to-rose-500/10 px-8 py-3 rounded-xl border border-pink-500/20 font-mono select-all overflow-x-auto max-w-full">
+                {result.step6ExactStr}
+              </div>
+            </div>
+
+            {/* Scientific Notation */}
+            <div className="flex flex-col items-center gap-2 pt-2">
+              <span className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-widest">الصيغة العلمية (Scientific Notation)</span>
+              <div className="text-2xl font-mono font-bold text-pink-400">
+                {result.step6Scientific}
+              </div>
+            </div>
+
+            {/* Step 6 Old Digital Reduction Block */}
+            <div className="space-y-3 pt-4 border-t border-white/5">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-pink-400 animate-pulse" />
+                <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
+                  التبسيط الرقمي القديم للقيمة العلمية (Old Digital Root Reduction)
+                </span>
+              </div>
+              <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 flex flex-col items-center gap-4 text-center">
+                <div className="flex items-center justify-center gap-3 flex-wrap">
+                  {result.step6ReductionSteps?.map((step, idx) => {
+                    const isLast = idx === (result.step6ReductionSteps?.length || 0) - 1;
+                    return (
+                      <div key={idx} className="flex items-center gap-3">
+                        <div className="flex flex-col items-center bg-black/10 px-4 py-2.5 rounded-xl border border-white/[0.02]">
+                          <span className={`font-mono font-black ${
+                            isLast ? "text-pink-400 text-3xl" : "text-slate-300 text-lg"
+                          }`}>
+                            {step}
+                          </span>
+                          {!isLast && (
+                            <span className="text-[0.65rem] font-bold text-slate-500 font-mono mt-1" dir="ltr">
+                              {step.includes('.') 
+                                ? step.split('.').map(part => `(${part.split('').join('+')})`).join('.')
+                                : `(${step.split('').join('+')})`
+                              }
+                            </span>
+                          )}
+                          {isLast && (
+                            <span className="text-[0.65rem] font-black text-pink-500/70 mt-1">
+                              الرقم النهائي القديم
+                            </span>
+                          )}
+                        </div>
+                        {!isLast && (
+                          <ChevronRight className="w-4 h-4 text-slate-600 rtl:rotate-180" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-[0.7rem] text-slate-500 leading-relaxed italic max-w-md">
+                  يتم جمع خانات الرقم الصحيح والكسري للناتج العلمي بشكل منفصل ومتكرر حتى نصل إلى رقم مفرد لكل منهما.
                 </p>
               </div>
             </div>
