@@ -264,7 +264,7 @@ export default function ResultView({ result }: ResultViewProps) {
             ٥
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white">
-            الخطوة الخامسة: ضرب الترتيب (الخطوة ١) في القيمة المتجمعة (الخطوة ٤) والجمع والتبسيط النهائي
+            الخطوة الخامسة: ضرب قيمة (الخطوة 3) في القيمة المتجمعة (الخطوة 4) والجمع والتبسيط النهائي
           </h3>
         </div>
 
@@ -273,7 +273,7 @@ export default function ResultView({ result }: ResultViewProps) {
             
             {/* Explanatory subtitle */}
             <p className="text-slate-400 text-sm leading-relaxed">
-              يتم ضرب ترتيب كل حرف (الخطوة الأولى) في قيمته المتجمعة (الخطوة الرابعة) للحصول على قيمة الموضع في الخطوة الخامسة، ثم يتم جمع كل القيم للحصول على المجموع الكلي، وأخيراً نبسط المجموع الكلي إلى رقم واحد (من 1 إلى 9).
+              يتم ضرب القيمة من (الخطوة الثالثة) في القيمة المتجمعة من (الخطوة الرابعة) للحصول على ناتج كل موضع، ثم يتم جمع كل القيم للحصول على المجموع الكلي.
             </p>
 
             {/* Cross-Multiplication Grid */}
@@ -307,7 +307,7 @@ export default function ResultView({ result }: ResultViewProps) {
                         <div className="flex flex-col">
                           <span className="text-[0.6rem] text-slate-500 font-bold">الموقع {step.originalIndex}</span>
                           <span className="text-xs font-mono font-bold text-slate-400">
-                            {step.originalIndex} × {step.groupedValue}
+                            {step.indexSquared} × {step.groupedValue}
                           </span>
                         </div>
                       </div>
@@ -325,7 +325,7 @@ export default function ResultView({ result }: ResultViewProps) {
               <div className="flex items-center gap-2">
                 <Sigma className="w-4 h-4 text-indigo-400" />
                 <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                  معادلة الجمع الكلي (Grand Total Summation)
+                  معادلة الجمع الكلي (GRAND TOTAL SUMMATION)
                 </span>
               </div>
               <div className="bg-black/20 p-5 rounded-2xl border border-white/5 text-center space-y-4">
@@ -346,7 +346,7 @@ export default function ResultView({ result }: ResultViewProps) {
                   ))}
                 </div>
                 <div className="flex flex-col items-center justify-center gap-1 pt-2 border-t border-white/5">
-                  <span className="text-[0.6rem] font-bold text-slate-500 uppercase tracking-widest">المجموع الكلي الكلي</span>
+                  <span className="text-[0.6rem] font-bold text-slate-500 uppercase tracking-widest">المجموع الكلي قبل الاختزال</span>
                   <span className="text-4xl font-black text-white bg-gradient-to-r from-blue-500/10 to-indigo-500/10 px-8 py-2 rounded-xl border border-blue-500/20 font-mono shadow-md select-all">
                     {grandTotal}
                   </span>
@@ -354,25 +354,62 @@ export default function ResultView({ result }: ResultViewProps) {
               </div>
             </div>
 
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          STEP 6: Scientific Value and Final Reduction
+          ═══════════════════════════════════════════════════════════════ */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 px-2">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-pink-500/20">
+            ٦
+          </div>
+          <h3 className="text-lg font-bold tracking-tight text-white">
+            الخطوة السادسة: حساب القيمة العلمية الإجمالية
+          </h3>
+        </div>
+
+        <Card className="glass border-white/5 overflow-hidden">
+          <CardContent className="p-6 space-y-6">
+            <p className="text-slate-400 text-sm leading-relaxed">
+              تقسيم المجموع الكلي من الخطوة الخامسة على عدد الحروف الكلي (الخطوة الأولى) للحصول على القيمة العلمية النهائية. يتم استخراج الرقم النهائي المبوّب (Digital Root) من هذا الناتج.
+            </p>
+
+            {/* Division Display */}
+            <div className="bg-black/20 p-5 rounded-2xl border border-white/5 text-center flex flex-col items-center gap-4">
+              <div className="flex items-center gap-3 text-xl font-mono text-slate-300">
+                <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">{result.step6Numerator}</span>
+                <span className="text-pink-400 font-bold">÷</span>
+                <span className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">{result.step6Denominator}</span>
+                <span className="text-pink-400 font-bold">=</span>
+              </div>
+              <div className="text-2xl font-black text-white bg-gradient-to-r from-pink-500/10 to-rose-500/10 px-8 py-3 rounded-xl border border-pink-500/20 font-mono select-all overflow-x-auto max-w-full">
+                {result.step6ExactStr}
+              </div>
+            </div>
+
+            {/* Scientific Notation */}
+            <div className="flex flex-col items-center gap-2 pt-2">
+              <span className="text-[0.7rem] font-bold text-slate-500 uppercase tracking-widest">الصيغة العلمية (Scientific Notation)</span>
+              <div className="text-2xl font-mono font-bold text-pink-400">
+                {result.step6Scientific}
+              </div>
+            </div>
+            
             {/* Final Digital Reduction Block */}
             <div className="space-y-3 pt-4 border-t border-white/5">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
                 <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
-                  التبسيط النهائي للمجموع الكلي (Digital Root Reduction)
+                  التبسيط النهائي للناتج العلمي (Digital Root Reduction)
                 </span>
               </div>
               <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 flex flex-col items-center gap-4 text-center">
                 <div className="flex items-center justify-center gap-3 flex-wrap">
                   {reductionSteps.map((step, idx) => {
                     const isLast = idx === reductionSteps.length - 1;
-                    
-                    // Generate explanation of summing digits: e.g. "1 + 1 + 1 + 0 = 3"
-                    let digitSumText = "";
-                    if (idx < reductionSteps.length - 1) {
-                      digitSumText = step.split('').join(' + ') + ' = ' + reductionSteps[idx + 1];
-                    }
-
                     return (
                       <div key={idx} className="flex items-center gap-3">
                         <div className="flex flex-col items-center bg-black/10 px-4 py-2.5 rounded-xl border border-white/[0.02]">
@@ -382,8 +419,11 @@ export default function ResultView({ result }: ResultViewProps) {
                             {step}
                           </span>
                           {!isLast && (
-                            <span className="text-[0.65rem] font-bold text-slate-500 font-mono mt-1">
-                              ({step.split('').join('+')})
+                            <span className="text-[0.65rem] font-bold text-slate-500 font-mono mt-1" dir="ltr">
+                              {step.includes('.') 
+                                ? step.split('.').map(part => `(${part.split('').join('+')})`).join('.')
+                                : `(${step.split('').join('+')})`
+                              }
                             </span>
                           )}
                           {isLast && (
@@ -400,7 +440,7 @@ export default function ResultView({ result }: ResultViewProps) {
                   })}
                 </div>
                 <p className="text-[0.7rem] text-slate-500 leading-relaxed italic max-w-md">
-                  يتم جمع خانات الرقم الكلي بشكل متكرر حتى نصل إلى رقم مفرد بين 1 و 9.
+                  يتم جمع خانات الرقم الصحيح للناتج العلمي بشكل متكرر حتى نصل إلى رقم مفرد.
                 </p>
               </div>
             </div>

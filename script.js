@@ -1,4 +1,4 @@
-// script.js - Advanced Numerology Calculator (Base-8)
+// script.js - Advanced Numerology Calculator (Base-4)
 
 // ---------- Step 1: Normalization ----------
 function normalizeArabicText(text) {
@@ -19,20 +19,96 @@ function normalizeArabicText(text) {
   return normalized;
 }
 
-// ---------- Final Reduction ----------
-function reduceToSingleDigit(numBigInt) {
-    let str = numBigInt.toString();
-    while (str.length > 1) {
-        let sum = 0n;
-        for (let ch of str) {
-            sum += BigInt(ch);
-        }
-        str = sum.toString();
+// ---------- BigInt Exact Division to Decimal String ----------
+// Divides numerator (BigInt) by denominator (BigInt) and returns
+// a precise decimal string with up to `precision` decimal places,
+// NO rounding — it simply stops at the specified number of digits.
+function bigIntDivToExactString(numerator, denominator, precision) {
+    const intPart = numerator / denominator;
+    let remainder = numerator % denominator;
+    
+    if (remainder === 0n) {
+        return intPart.toString();
     }
-    return Number(str);
+    
+    let decimalStr = "";
+    let digits = 0;
+    while (remainder !== 0n && digits < precision) {
+        remainder *= 10n;
+        const digit = remainder / denominator;
+        decimalStr += digit.toString();
+        remainder = remainder % denominator;
+        digits++;
+    }
+    
+    return intPart.toString() + (decimalStr.length > 0 ? "." + decimalStr : "");
 }
 
-// ---------- 5-Step Algorithm ----------
+// ---------- Convert decimal string to Scientific Notation ----------
+function toScientificNotation(decimalStr) {
+    // Remove sign (handle positive only here)
+    const isNeg = decimalStr.startsWith("-");
+    let s = isNeg ? decimalStr.slice(1) : decimalStr;
+    
+    // Split into integer and decimal parts
+    const dotIdx = s.indexOf(".");
+    let intPart = dotIdx >= 0 ? s.slice(0, dotIdx) : s;
+    let fracPart = dotIdx >= 0 ? s.slice(dotIdx + 1) : "";
+    
+    // Combine all digits
+    const allDigits = intPart + fracPart;
+    
+    // Find first non-zero digit
+    let firstNonZero = -1;
+    for (let i = 0; i < allDigits.length; i++) {
+        if (allDigits[i] !== "0") { firstNonZero = i; break; }
+    }
+    if (firstNonZero === -1) return "0";
+    
+    // Exponent = position of decimal point relative to first non-zero
+    // Original decimal position: after intPart.length digits from left
+    const exponent = intPart.length - 1 - firstNonZero + (intPart === "0" ? 0 : 0);
+    
+    // For numbers >= 1: exponent = intPart.length - 1
+    // Significand = allDigits with decimal after first digit
+    const significandDigits = allDigits.replace(/^0+/, ""); // remove leading zeros
+    let significand;
+    if (significandDigits.length === 0) return "0";
+    if (significandDigits.length === 1) {
+        significand = significandDigits[0];
+    } else {
+        significand = significandDigits[0] + "." + significandDigits.slice(1);
+        // Trim trailing zeros in significand decimal part
+        significand = significand.replace(/\.?0+$/, "");
+    }
+    
+    // Compute exponent: number of digits in integer part - 1
+    const exp = intPart.replace(/^0+/, "").length > 0 
+        ? intPart.replace(/^0+/, "").length - 1 
+        : -(fracPart.length - significandDigits.length + 1);
+    
+    return (isNeg ? "-" : "") + significand + " × 10<sup>" + exp + "</sup>";
+}
+
+// ---------- Final Reduction (Digital Root) from decimal string ----------
+// Only uses the integer part's digits for summation (ignores decimal part)
+function reduceDigitsFromString(decimalStr) {
+    // Take integer part only
+    const dotIdx = decimalStr.indexOf(".");
+    let intStr = dotIdx >= 0 ? decimalStr.slice(0, dotIdx) : decimalStr;
+    // Remove negative sign if any
+    if (intStr.startsWith("-")) intStr = intStr.slice(1);
+    
+    // Digital root reduction
+    while (intStr.length > 1) {
+        let sum = 0;
+        for (const ch of intStr) { sum += Number(ch); }
+        intStr = sum.toString();
+    }
+    return Number(intStr);
+}
+
+// ---------- 6-Step Algorithm ----------
 function computeSteps(rawText) {
     const cleaned = normalizeArabicText(rawText);
     const textLength = cleaned.length;
@@ -71,40 +147,56 @@ function computeSteps(rawText) {
         step4.push({ char, total: charGroupedMap[char] });
     }
     
-    // Step 5: Normal Addition, Grand Total Sum, and Final Reduction
+    // Step 5: Multiply Step 3 value × Step 4 grouped value for each character, then sum
     let grandTotal = 0n;
     const step5Details = [];
     
     for (let i = 0; i < textLength; i++) {
         const char = cleaned[i];
-        // Grouped Value from Step 4
+        // Step 3 value for this character
+        const step3Value = step3[i].value;
+        // Step 4: Grouped Value (sum of step3 for same letter)
         const groupedValue = charGroupedMap[char];
         
-        // Normal addition of Step 4 value
-        const additionResult = groupedValue;
+        // Step 5: Step3 × Step4
+        const multiplicationResult = step3Value * groupedValue;
         
         // Accumulate to Grand Total
-        grandTotal += additionResult;
+        grandTotal += multiplicationResult;
         
         step5Details.push({ 
             char, 
+            step3Value,
             groupedValue, 
-            additionResult 
+            multiplicationResult 
         });
     }
-    
-    // Final Digital Root Reduction (ONLY after Grand Total is fully computed)
-    const finalDigit = reduceToSingleDigit(grandTotal);
+
+    // Step 6: Divide grand total by number of letters (NO rounding ever)
+    const letterCount = BigInt(textLength);
+    // Exact decimal string (no rounding, up to 50 decimal places)
+    const step6ExactStr = bigIntDivToExactString(grandTotal, letterCount, 50);
+    // Scientific notation display
+    const step6Scientific = toScientificNotation(step6ExactStr);
+    // Final digital root reduction ONLY after Step 6 division (on integer part)
+    const finalDigit = reduceDigitsFromString(step6ExactStr);
     
     return {
         cleaned,
+        textLength,
         step1,
         step2,
         step3,
         step4,
         step5: {
             details: step5Details,
-            grandTotal,
+            grandTotal
+        },
+        step6: {
+            numerator: grandTotal,
+            denominator: textLength,
+            exactStr: step6ExactStr,
+            scientific: step6Scientific,
             finalDigit
         }
     };
@@ -146,27 +238,48 @@ function renderResults(result) {
         </div>`
     ).join('');
     
-    // Render Step 5
+    // Render Step 5 (Step3 × Step4 per character, then grand total)
     const step5Html = `
         <div class="step5-details">
             ${result.step5.details.map(r => 
                 `<div class="multiplication-row">
-                    <span>${r.char}:</span> 
-                    <span>القيمة المتجمعة: ${r.groupedValue}</span> 
-                    <span>= ${r.additionResult}</span>
+                    <span class="char-label">${r.char}</span>
+                    <span class="formula-part">خطوة٣: <strong>${r.step3Value}</strong></span>
+                    <span class="times-symbol">×</span>
+                    <span class="formula-part">خطوة٤: <strong>${r.groupedValue}</strong></span>
+                    <span class="equals-symbol">=</span>
+                    <span class="result-part">${r.multiplicationResult}</span>
                 </div>`
             ).join('')}
         </div>
         <div class="grand-total">
-            <h3>المجموع الكلي:</h3>
+            <h3>المجموع الكلي قبل الاختزال (GRAND TOTAL SUMMATION):</h3>
             <div class="big-number">${result.step5.grandTotal}</div>
-        </div>
-        <div class="final-digit">
-            <h3>الرقم النهائي المرجّع (1-9):</h3>
-            <div class="massive-number">${result.step5.finalDigit}</div>
         </div>
     `;
     document.getElementById("step5Body").innerHTML = step5Html;
+
+    // Render Step 6 (Division by letter count + scientific + final digit)
+    const step6Html = `
+        <div class="step6-formula">
+            <div class="division-display">
+                <span class="div-label">${result.step6.numerator}</span>
+                <span class="div-symbol">÷</span>
+                <span class="div-label">${result.step6.denominator}</span>
+                <span class="div-symbol">=</span>
+                <span class="exact-result" style="font-family: monospace; direction: ltr; display: inline-block;">${result.step6.exactStr}</span>
+            </div>
+        </div>
+        <div class="scientific-display">
+            <h3>الصيغة العلمية (Scientific Notation):</h3>
+            <div class="scientific-number">${result.step6.scientific}</div>
+        </div>
+        <div class="final-digit">
+            <h3>الرقم النهائي المبوب (Digital Root):</h3>
+            <div class="massive-number">${result.step6.finalDigit}</div>
+        </div>
+    `;
+    document.getElementById("step6Body").innerHTML = step6Html;
 }
 
 // ---------- Event Listeners ----------
