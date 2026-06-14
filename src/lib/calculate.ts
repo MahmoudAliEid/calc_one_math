@@ -32,7 +32,7 @@ export interface CalculationResult {
   step6ExactStr: string;
   step6Scientific: string;
   reductionSteps: string[];
-  finalReduced: number;
+  finalReduced: string;
 }
 
 // ─────────────────────────────────────────────────────────────
